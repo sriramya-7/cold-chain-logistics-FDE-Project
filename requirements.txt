@@ -1,4 +1,4 @@
-# Python 3.12.13
+# Python 3.13.3
 altair==6.2.2
 faiss-cpu==1.15.0
 langchain-core==1.6.5
