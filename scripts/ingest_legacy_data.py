@@ -18,6 +18,10 @@ db_port = os.getenv("SQL_SERVER_PORT", "1433")
 db_user = os.getenv("SQL_ADMIN_USER")
 db_password = os.getenv("SQL_ADMIN_PASSWORD")
 
+print("SQL_SERVER_HOST =", db_host)
+print("SQL_ADMIN_USER =", db_user)
+print("SQL_SERVER_PORT =", db_port)
+print("SQL_ADMIN_PASSWORD =", db_password)
 # 1. Load the raw dataset
 print(f"Loading CSV from {data_path}...")
 df = pd.read_csv(data_path)
@@ -58,6 +62,14 @@ params = urllib.parse.quote_plus(connection_string)
 
 engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")
 
+with engine.connect() as conn:
+    result = conn.exec_driver_sql("""
+        SELECT
+            @@SERVERNAME AS ServerName,
+            DB_NAME() AS DatabaseName,
+            SUSER_SNAME() AS LoginName
+    """)
+    print("Python SQL connection:", result.fetchone())
 # 4. Ingest data into the messy table name
 table_name = 'TBL_SC_FLEET_HIST_RAW'
 print(f"Ingesting into {table_name}. This may take a minute...")
