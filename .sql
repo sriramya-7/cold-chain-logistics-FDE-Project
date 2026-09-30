@@ -1,5 +1,5 @@
-SELECT
-    TABLE_SCHEMA,
-    TABLE_NAME
-FROM INFORMATION_SCHEMA.TABLES
-WHERE TABLE_NAME = 'TBL_SC_FLEET_HIST_RAW';
+-- TEST 1: This SHOULD work perfectly (Access to clean view)
+SELECT TOP 5 * FROM FDE_VIEWS.VW_ACTIVE_FLEET;
+
+-- TEST 2: This SHOULD fail instantly (Access to raw legacy table is DENIED)
+SELECT TOP 5 * FROM dbo.TBL_SC_FLEET_HIST_RAW;
